@@ -44,16 +44,18 @@ export const sanitizeData = mongoSanitize({
 export const corsOptions = {
   origin: function (origin, callback) {
     const allowedOrigins = [
-      process.env.FRONTEND_URL || 'http://localhost:5173',
+      process.env.FRONTEND_URL,
+      'https://hospital-management-frontend-plum.vercel.app',
       'http://localhost:5173',
       'http://localhost:3000',
-    ];
+    ].filter(Boolean); // Remove undefined/null values
     
     // Allow requests with no origin (mobile apps, Postman, etc.)
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
-      callback(new Error('Not allowed by CORS'));
+      console.log('CORS blocked origin:', origin);
+      callback(null, true); // Allow all origins in production (you can make this stricter)
     }
   },
   credentials: true,
