@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
-import api, { API_URL } from '../../config/api';
+import api from '../../config/api';
 import Card from '../../components/ui/Card';
 import Button from '../../components/ui/Button';
 import Input from '../../components/ui/Input';
@@ -32,7 +31,7 @@ const AdminSettings = () => {
   const loadSettings = async () => {
     try {
       setLoading(true);
-      const { data } = await api.get(`${API_URL}/admin/settings`);
+      const { data } = await api.get('/admin/settings');
       setSettings(data.data);
     } catch (error) {
       console.error('Error loading settings:', error);
@@ -45,7 +44,7 @@ const AdminSettings = () => {
   const handleSave = async () => {
     try {
       setSaving(true);
-      const { data } = await api.put(`${API_URL}/admin/settings`, settings);
+      const { data } = await api.put('/admin/settings', settings);
       setSettings(data.data);
       toast.success('Settings saved successfully');
     } catch (error) {
