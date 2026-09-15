@@ -51,6 +51,25 @@ if (process.env.NODE_ENV === 'development') {
 // Rate limiting
 app.use('/api', limiter);
 
+// Root route - Health check
+app.get('/', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: '🏥 Hospital Management System API',
+    status: 'Server is running',
+    timestamp: new Date().toISOString(),
+    endpoints: {
+      health: '/health',
+      auth: '/api/auth',
+      patients: '/api/patient',
+      doctors: '/api/doctor',
+      staff: '/api/staff',
+      admin: '/api/admin',
+      payments: '/api/payments',
+    },
+  });
+});
+
 // Health check route
 app.get('/health', (req, res) => {
   res.status(200).json({
